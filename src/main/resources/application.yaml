@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: reminder
+  datasource:
+    username: postgres
+    password: password
+    url: jdbc:postgresql://localhost:5432/reminder
+  jpa:
+    open-in-view: false
+    properties.hibernate:
+      show_sql: true
+      format_sql: true
