@@ -2,26 +2,12 @@ package com.serge.reminder.mapper;
 
 import com.serge.reminder.dto.RemindCreateEditDto;
 import com.serge.reminder.entity.Remind;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
-@Component
-public class RemindCreateEditMapper implements Mapper<RemindCreateEditDto, Remind> {
-    @Override
-    public Remind map(RemindCreateEditDto object) {
-        Remind remind = new Remind();
-        copy(object, remind);
-        return remind;
-    }
+@Mapper(componentModel = "spring")
+public interface RemindCreateEditMapper {
+    Remind map(RemindCreateEditDto remindCreateEditDto);
 
-    @Override
-    public Remind map(RemindCreateEditDto fromObject, Remind toObject) {
-        copy(fromObject,toObject);
-        return toObject;
-    }
-
-    private void copy(RemindCreateEditDto object, Remind remind) {
-        remind.setTitle(object.getTitle());
-        remind.setDescription(object.getDescription());
-        remind.setRemind(object.getRemind());
-    }
+    Remind map(RemindCreateEditDto remindCreateEditDto,@MappingTarget Remind remind);
 }
