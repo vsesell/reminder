@@ -3,7 +3,9 @@ package com.serge.reminder.service;
 import com.serge.reminder.dto.RemindCreateEditDto;
 import com.serge.reminder.dto.RemindReadDto;
 import com.serge.reminder.mapper.RemindCreateEditMapper;
+import com.serge.reminder.mapper.RemindCreateEditMsMapper;
 import com.serge.reminder.mapper.RemindReadMapper;
+import com.serge.reminder.mapper.RemindReadMsMapper;
 import com.serge.reminder.repository.RemindRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,25 +19,25 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class RemindService {
     private final RemindRepository remindRepository;
-    private final RemindReadMapper remindReadMapper;
-    private final RemindCreateEditMapper remindCreateEditMapper;
+    private final RemindReadMsMapper remindReadMsMapper;
+    private final RemindCreateEditMsMapper remindCreateEditMsMapper;
 
     public List<RemindReadDto> findAll() {
         return remindRepository.findAll().stream()
-                .map(remindReadMapper::map).toList();
+                .map(remindReadMsMapper::map).toList();
     }
 
     public Optional<RemindReadDto> findById(Long id) {
         return remindRepository.findById(id)
-                .map(remindReadMapper::map);
+                .map(remindReadMsMapper::map);
     }
 
     @Transactional
     public RemindReadDto create(RemindCreateEditDto remindCreateEditDto) {
         return Optional.of(remindCreateEditDto)
-                .map(remindCreateEditMapper::map)
+                .map(remindCreateEditMsMapper::map)
                 .map(remindRepository::save)
-                .map(remindReadMapper::map)
+                .map(remindReadMsMapper::map)
                 .orElseThrow();
 
     }
@@ -43,9 +45,9 @@ public class RemindService {
     @Transactional
     public Optional<RemindReadDto> update(Long id, RemindCreateEditDto remindCreateEditDto) {
         return remindRepository.findById(id)
-                .map(entity -> remindCreateEditMapper.map(remindCreateEditDto, entity))
+                .map(entity -> remindCreateEditMsMapper.map(remindCreateEditDto, entity))
                 .map(remindRepository::saveAndFlush)
-                .map(remindReadMapper::map);
+                .map(remindReadMsMapper::map);
     }
 
     @Transactional
