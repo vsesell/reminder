@@ -1,4 +1,4 @@
-package com.serge.reminder;
+package com.serge.reminder.controller;
 
 import com.serge.reminder.dto.RemindReadDto;
 import com.serge.reminder.service.RemindService;
