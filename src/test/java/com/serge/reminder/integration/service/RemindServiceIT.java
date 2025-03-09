@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.hibernate.grammars.hql.HqlParser;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
