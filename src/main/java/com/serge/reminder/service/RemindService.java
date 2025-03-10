@@ -1,9 +1,11 @@
 package com.serge.reminder.service;
 
 import com.serge.reminder.dto.RemindCreateEditDto;
+import com.serge.reminder.dto.RemindSortingDto;
 import com.serge.reminder.dto.RemindReadDto;
 import com.serge.reminder.mapper.RemindCreateEditMapper;
 import com.serge.reminder.mapper.RemindReadMapper;
+import com.serge.reminder.mapper.RemindSortingMapper;
 import com.serge.reminder.repository.RemindRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,11 +22,22 @@ import java.util.Optional;
 public class RemindService {
     private final RemindRepository remindRepository;
     private final RemindReadMapper remindReadMapper;
+    private final RemindSortingMapper remindSortingMapper;
     private final RemindCreateEditMapper remindCreateEditMapper;
 
     public List<RemindReadDto> findAll() {
         return remindRepository.findAll().stream()
                 .map(remindReadMapper::map).toList();
+    }
+
+    public Page<RemindReadDto> findAll(Pageable pageable) {
+        return remindRepository.findAll(pageable)
+                .map(remindReadMapper::map);
+    }
+
+    public Page<RemindSortingDto> findAllWithSort(Pageable pageable) {
+        return remindRepository.findAllWithSort(pageable)
+                .map(remindSortingMapper::map);
     }
 
     public Optional<RemindReadDto> findById(Long id) {
@@ -49,7 +62,6 @@ public class RemindService {
                 .map(remindRepository::saveAndFlush)
                 .map(remindReadMapper::map);
     }
-
     @Transactional
     public boolean delete(Long id) {
         return remindRepository.findById(id)
@@ -58,9 +70,5 @@ public class RemindService {
                     remindRepository.flush();
                     return true;
                 }).orElse(false);
-    }
-    public Page<RemindReadDto> findAll(Pageable pageable) {
-        return remindRepository.findAll(pageable)
-                .map(remindReadMapper::map);
     }
 }
