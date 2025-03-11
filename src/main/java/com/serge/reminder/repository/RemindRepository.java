@@ -7,7 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface RemindRepository extends JpaRepository<Remind,Long> {
+public interface RemindRepository extends JpaRepository<Remind,Long>,
+        RemindRepositoryCustom {
     Page<Remind> findAll(Pageable pageable);
 
 
@@ -17,4 +18,5 @@ public interface RemindRepository extends JpaRepository<Remind,Long> {
             "cast(r.remind as date) as date," +
             "cast(r.remind as time) as time from Remind r")
     Page<Tuple> findAllWithSort(Pageable pageable);
+
 }

@@ -10,6 +10,7 @@ import org.assertj.core.api.Assertions;
 import org.hibernate.grammars.hql.HqlParser;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

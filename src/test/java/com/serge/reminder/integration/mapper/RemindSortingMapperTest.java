@@ -22,11 +22,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RemindSortingMapperTest extends IntegrationTestBase {
     private final RemindRepository repository;
     private final RemindSortingMapper remindSortingMapper;
-    private static final Pageable DEFAULT_PAGEABLE = Pageable.ofSize(1);
-
+    private static final Pageable DEFAULT_PAGEABLE_SIZE_1 = Pageable.ofSize(1);
     @Test
      void tupleToDto() {
-        Page<Tuple> allWithSort = repository.findAllWithSort(DEFAULT_PAGEABLE);
+        Page<Tuple> allWithSort = repository.findAllWithSort(DEFAULT_PAGEABLE_SIZE_1);
         Remind remind = new Remind(null, "Meeting with client", "Discussion about new project", LocalDateTime.of(
                 2025, 3, 15, 10, 0, 0
         ));
@@ -40,5 +39,12 @@ public class RemindSortingMapperTest extends IntegrationTestBase {
                 () -> assertThat(actualResult.getTime()).isEqualTo(Time.valueOf(remind.getRemind().toLocalTime()))
         );
 
+    }
+
+    @Test
+    void dynamicQueryTest() {
+        Page<Tuple> tuples = repository.findFilterDateTime(Date.valueOf("2025-01-01"),Time.valueOf("10:00:00"), DEFAULT_PAGEABLE_SIZE_1);
+
+        System.out.println(tuples.map(remindSortingMapper::map));
     }
 }

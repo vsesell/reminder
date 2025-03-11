@@ -7,12 +7,15 @@ import com.serge.reminder.mapper.RemindCreateEditMapper;
 import com.serge.reminder.mapper.RemindReadMapper;
 import com.serge.reminder.mapper.RemindSortingMapper;
 import com.serge.reminder.repository.RemindRepository;
+import com.serge.reminder.repository.RemindRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +40,11 @@ public class RemindService {
 
     public Page<RemindSortingDto> findAllWithSort(Pageable pageable) {
         return remindRepository.findAllWithSort(pageable)
+                .map(remindSortingMapper::map);
+    }
+
+    public Page<RemindSortingDto> findFilterDateTime(Date date, Time time, Pageable pageable) {
+        return remindRepository.findFilterDateTime(date, time, pageable)
                 .map(remindSortingMapper::map);
     }
 

@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Date;
+import java.sql.Time;
+
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
@@ -19,17 +22,16 @@ public class RemindRestController {
 
     @GetMapping("list")
     public PageResponse<RemindReadDto> findAll(Pageable pageable) {
-        Page<RemindReadDto> page = remindService.findAll(pageable);
-        return PageResponse.of(page.getTotalPages(),
-                page.getNumber(),
-                page.getContent());
+        return PageResponse.of(remindService.findAll(pageable));
     }
 
     @GetMapping("/sort")
     public PageResponse<RemindSortingDto> findAllWithSort(Pageable pageable) {
-        Page<RemindSortingDto> allWithSort = remindService.findAllWithSort(pageable);
-        return PageResponse.of(allWithSort.getTotalPages(),
-                allWithSort.getNumber(),
-                allWithSort.getContent());
+        return PageResponse.of(remindService.findAllWithSort(pageable));
+    }
+
+    @GetMapping("/filter")
+    public PageResponse<RemindSortingDto> findFilterDateTime(Date date, Time time,Pageable pageable) {
+        return PageResponse.of(remindService.findFilterDateTime(date, time, pageable));
     }
 }
