@@ -2,8 +2,8 @@ spring:
   application:
     name: reminder
   datasource:
-    username: postgres
-    password: password
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     url: jdbc:postgresql://localhost:5432/reminder
   jpa:
     open-in-view: false
